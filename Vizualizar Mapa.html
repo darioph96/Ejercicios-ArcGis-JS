@@ -21,7 +21,8 @@
 
     <script>
         require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/BasemapToggle",
-            "esri/widgets/BasemapGallery"], function (esriConfig, Map, MapView, BasemapToggle, BasemapGallery) {
+            "esri/widgets/BasemapGallery", "esri/Graphic", "esri/layers/GraphicsLayer"],
+            function (esriConfig, Map, MapView, BasemapToggle, BasemapGallery, Graphic, GraphicsLayer) {
                 // esriConfig.apiKey = "YOUR_API_KEY";
                 const map = new Map({
                     basemap: "arcgis-topographic" // Basemap layer service
@@ -36,7 +37,8 @@
                     view: view,
                     nextBasemap: "arcgis-imagery"
                 });
-                view.ui.add(basemapToggle, "bottom-right");
+                view.ui.add(basemapToggle, "bottom-left");
+
                 const basemapGallery = new BasemapGallery({
                     view: view,
                     source: {
@@ -45,7 +47,102 @@
                         }
                     }
                 });
-                view.ui.add(basemapGallery, "top-right"); // Add to the view
+                view.ui.add(basemapGallery, "top-left"); // Add to the view
+
+// =================================================================================
+// ======= CREACION DE CAPA GRAFICA ================================================
+// =================================================================================
+                const graphicsLayer = new GraphicsLayer();
+                map.add(graphicsLayer);
+                
+// ==================================================================================
+// ======= CREACION DE UN PUNTO =====================================================
+// ==================================================================================
+                const point = { //Create a point
+                    type: "point",
+                    longitude: -99.139,
+                    latitude: 19.376
+                };
+                const simpleMarkerSymbol = {
+                    type: "simple-marker",
+                    color: [226, 119, 40],  // Orange
+                    outline: {
+                        color: [0, 0, 0], // Black
+                        width: 2
+                    }
+                };
+                const pointGraphic = new Graphic({
+                    geometry: point,
+                    symbol: simpleMarkerSymbol
+                });
+                graphicsLayer.add(pointGraphic);
+
+// ==================================================================================
+// ======= CREACION DE UNA LINEA ====================================================
+// ==================================================================================
+                // Create a line geometry
+                const polyline = {
+                    type: "polyline",
+                    paths: [
+                        [-99.155, 19.363], //Longitude, latitude
+                        [-99.15, 19.357], //Longitude, latitude
+                        [-99.142878, 19.35066]  //Longitude, latitude
+                    ]
+                    //-99.139, 19.376
+                };
+                const simpleLineSymbol = {
+                    type: "simple-line",
+                    color: [226, 119, 40], // Orange
+                    width: 2
+                };
+
+                const polylineGraphic = new Graphic({
+                    geometry: polyline,
+                    symbol: simpleLineSymbol
+                });
+                graphicsLayer.add(polylineGraphic);
+
+
+// ==================================================================================
+// ======= CREACION DE UN POLIGONO ====================================================
+// ==================================================================================
+                // Create a polygon geometry
+                const polygon = {
+                    type: "polygon",
+                    rings: [
+                        [-99.15298, 19.3627], //Longitude, latitude
+                        [-99.14079659, 19.37058], //Longitude, latitude
+                        [-99.1254, 19.36538], //Longitude, latitude
+                        [-99.1299, 19.36538],   //Longitude, latitude
+                        [-99.142558, 19.3525]  //Longitude, latitude
+                    ]
+                };
+
+                const simpleFillSymbol = {
+                    type: "simple-fill",
+                    color: [227, 139, 79, 0.8],  // Orange, opacity 80%
+                    outline: {
+                        color: [0, 0, 0],
+                        width: 2
+                    }
+                };
+                const popupTemplate = {
+                    title: "{Name}",
+                    content: "{Description}"
+                }
+                const attributes = {
+                    Name: "Graphic",
+                    Description: "Soy un poligono man"
+                }
+                const polygonGraphic = new Graphic({
+                    geometry: polygon,
+                    symbol: simpleFillSymbol,
+                    attributes: attributes,
+                    popupTemplate: popupTemplate
+                });
+                graphicsLayer.add(polygonGraphic);
+
+                
             });
     </script>
 </head>
