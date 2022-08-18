@@ -21,8 +21,8 @@
 
     <script>
         require(["esri/config", "esri/Map", "esri/views/MapView", "esri/widgets/BasemapToggle",
-            "esri/widgets/BasemapGallery", "esri/Graphic", "esri/layers/GraphicsLayer"],
-            function (esriConfig, Map, MapView, BasemapToggle, BasemapGallery, Graphic, GraphicsLayer) {
+            "esri/widgets/BasemapGallery", "esri/Graphic", "esri/layers/GraphicsLayer", "esri/layers/FeatureLayer"],
+            function (esriConfig, Map, MapView, BasemapToggle, BasemapGallery, Graphic, GraphicsLayer, FeatureLayer) {
                 // esriConfig.apiKey = "YOUR_API_KEY";
                 const map = new Map({
                     basemap: "arcgis-topographic" // Basemap layer service
@@ -49,15 +49,15 @@
                 });
                 view.ui.add(basemapGallery, "top-left"); // Add to the view
 
-// =================================================================================
-// ======= CREACION DE CAPA GRAFICA ================================================
-// =================================================================================
+                // =================================================================================
+                // ======= CREACION DE CAPA GRAFICA ================================================
+                // =================================================================================
                 const graphicsLayer = new GraphicsLayer();
                 map.add(graphicsLayer);
-                
-// ==================================================================================
-// ======= CREACION DE UN PUNTO =====================================================
-// ==================================================================================
+
+                // ==================================================================================
+                // ======= CREACION DE UN PUNTO =====================================================
+                // ==================================================================================
                 const point = { //Create a point
                     type: "point",
                     longitude: -99.139,
@@ -77,9 +77,9 @@
                 });
                 graphicsLayer.add(pointGraphic);
 
-// ==================================================================================
-// ======= CREACION DE UNA LINEA ====================================================
-// ==================================================================================
+                // ==================================================================================
+                // ======= CREACION DE UNA LINEA ====================================================
+                // ==================================================================================
                 // Create a line geometry
                 const polyline = {
                     type: "polyline",
@@ -103,9 +103,9 @@
                 graphicsLayer.add(polylineGraphic);
 
 
-// ==================================================================================
-// ======= CREACION DE UN POLIGONO ====================================================
-// ==================================================================================
+                // ==================================================================================
+                // ======= CREACION DE UN POLIGONO ====================================================
+                // ==================================================================================
                 // Create a polygon geometry
                 const polygon = {
                     type: "polygon",
@@ -142,7 +142,12 @@
                 });
                 graphicsLayer.add(polygonGraphic);
 
-                
+                // ==================================================================================
+                // Parks and open spaces (polygons)
+                const parksLayer = new FeatureLayer({
+                    url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer"
+                });
+                map.add(parksLayer, 0);
             });
     </script>
 </head>
