@@ -142,10 +142,18 @@
                 });
                 graphicsLayer.add(polygonGraphic);
 
+                // Define a pop-up for Trailheads
+                const popupTrailheads = {
+                    "title": "Datos Estado",
+                    "content": "<b>ID:</b> {FID}<br><b>Nombre:</b> {NOM_CAP}<br>"
+                }
+
                 // ==================================================================================
                 // Parks and open spaces (polygons)
                 const parksLayer = new FeatureLayer({
-                    url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer"
+                    url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer",
+                    outFields: ["NOM_CAP"],
+                    popupTemplate: popupTrailheads
                 });
                 map.add(parksLayer, 0);
             });
