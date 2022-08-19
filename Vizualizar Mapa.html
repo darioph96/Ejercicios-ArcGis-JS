@@ -148,12 +148,34 @@
                     "content": "<b>ID:</b> {FID}<br><b>Nombre:</b> {NOM_CAP}<br>"
                 }
 
+                // Define a popup for Trails
+                const popupTrails = {
+                    title: "ESTADO: {FID} - {NOM_CAP}",
+                    content: [{
+                        type: "media",
+                        mediaInfos: [{
+                            type: "column-chart",
+                            caption: "",
+                            value: {
+                                fields: ["AREA"],
+                                normalizeField: null,
+                                tooltipField: "Area"
+                            }
+                        }]
+                    }]
+                }
+
                 // ==================================================================================
                 // Parks and open spaces (polygons)
+                // const parksLayer = new FeatureLayer({
+                //     url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer",
+                //     outFields: ["NOM_CAP"],
+                //     popupTemplate: popupTrailheads
+                // });
                 const parksLayer = new FeatureLayer({
                     url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer",
-                    outFields: ["NOM_CAP"],
-                    popupTemplate: popupTrailheads
+                    outFields: ["AREA", "NOM_CAP"],
+                    popupTemplate: popupTrails
                 });
                 map.add(parksLayer, 0);
             });
