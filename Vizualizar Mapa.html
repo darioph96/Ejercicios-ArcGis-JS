@@ -141,29 +141,12 @@
                     popupTemplate: popupTemplate
                 });
                 graphicsLayer.add(polygonGraphic);
-
+                //#region POPUP SIMPLE
                 // Define a pop-up for Trailheads
-                const popupTrailheads = {
-                    "title": "Datos Estado",
-                    "content": "<b>ID:</b> {FID}<br><b>Nombre:</b> {NOM_CAP}<br>"
-                }
-
-                // Define a popup for Trails
-                const popupTrails = {
-                    title: "ESTADO: {FID} - {NOM_CAP}",
-                    content: [{
-                        type: "media",
-                        mediaInfos: [{
-                            type: "column-chart",
-                            caption: "",
-                            value: {
-                                fields: ["AREA"],
-                                normalizeField: null,
-                                tooltipField: "Area"
-                            }
-                        }]
-                    }]
-                }
+                // const popupTrailheads = {
+                //     "title": "Datos Estado",
+                //     "content": "<b>ID:</b> {FID}<br><b>Nombre:</b> {NOM_CAP}<br>"
+                // }
 
                 // ==================================================================================
                 // Parks and open spaces (polygons)
@@ -172,11 +155,90 @@
                 //     outFields: ["NOM_CAP"],
                 //     popupTemplate: popupTrailheads
                 // });
+                //#endregion
+                
+                //#region POPUP CON GRAFICA
+                // Define a popup for Trails
+                // const popupTrails = {
+                //     title: "ESTADO: {FID} - {NOM_CAP}",
+                //     content: [{
+                //         type: "media",
+                //         mediaInfos: [{
+                //             type: "column-chart",
+                //             caption: "",
+                //             value: {
+                //                 fields: ["AREA"],
+                //                 normalizeField: null,
+                //                 tooltipField: "Area"
+                //             }
+                //         }]
+                //     }]
+                // }
+
+                // const parksLayer = new FeatureLayer({
+                //     url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer",
+                //     outFields: ["AREA", "NOM_CAP"],
+                //     popupTemplate: popupTrails
+                // });
+                //#endregion
+
+                //#region POPUP CON TABLA
+                // Define popup for Parks and Open Spaces
+                const popupOpenspaces = {
+                    "title": "{NOM_CAP}",
+                    "content": [{
+                        "type": "fields",
+                        "fieldInfos": [
+                            {
+                                "fieldName": "FID",
+                                "label": "ID",
+                                "isEditable": true,
+                                "tooltip": "",
+                                "visible": true,
+                                "format": null,
+                                "stringFieldOption": "text-box"
+                            },
+                            {
+                                "fieldName": "CVE_ENT",
+                                "label": "Clave",
+                                "isEditable": true,
+                                "tooltip": "",
+                                "visible": true,
+                                "format": null,
+                                "stringFieldOption": "text-box"
+                            },
+                            {
+                                "fieldName": "NOM_ENT",
+                                "label": "Nombre entidad",
+                                "isEditable": true,
+                                "tooltip": "",
+                                "visible": true,
+                                "format": null,
+                                "stringFieldOption": "text-box"
+                            },
+
+                            {
+                                "fieldName": "AREA",
+                                "label": "Area",
+                                "isEditable": true,
+                                "tooltip": "",
+                                "visible": true,
+                                "format": {
+                                    "places": 2,
+                                    "digitSeparator": true
+                                },
+
+                                "stringFieldOption": "text-box"
+                            }
+                        ]
+                    }]
+                }
                 const parksLayer = new FeatureLayer({
                     url: "https://procesosags.sigsa.info/server/rest/services/Francisco_Lopez/Estados/MapServer",
                     outFields: ["AREA", "NOM_CAP"],
-                    popupTemplate: popupTrails
+                    popupTemplate: popupOpenspaces
                 });
+                //#endregion
                 map.add(parksLayer, 0);
             });
     </script>
